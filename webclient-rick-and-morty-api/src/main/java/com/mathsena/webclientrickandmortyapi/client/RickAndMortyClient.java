@@ -2,11 +2,13 @@ package com.mathsena.webclientrickandmortyapi.client;
 
 import com.mathsena.webclientrickandmortyapi.response.CharactererResponse;
 import com.mathsena.webclientrickandmortyapi.response.EpisodeResponse;
+import com.mathsena.webclientrickandmortyapi.response.ListOfEpisodesResponse;
 import com.mathsena.webclientrickandmortyapi.response.LocationResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -57,6 +59,19 @@ public class RickAndMortyClient {
                 .onStatus(HttpStatusCode::is4xxClientError,
                         error -> Mono.error(new RuntimeException("Verifique os campos informados")
                         )).bodyToMono(EpisodeResponse.class);
+
+    }
+
+    public Flux<ListOfEpisodesResponse> getAllEpisodes(){
+        log.info("buscando todos os episódios");
+        return webClient
+                .get()
+                .uri("/episode/")
+                .accept(APPLICATION_JSON)
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        error -> Mono.error(new RuntimeException("Verifique os campos informados")
+                        )).bodyToFlux(ListOfEpisodesResponse.class);
 
     }
 }
