@@ -2,6 +2,7 @@ package com.mathsena.webclientrickandmortyapi.controller;
 
 import com.mathsena.webclientrickandmortyapi.client.RickAndMortyClient;
 import com.mathsena.webclientrickandmortyapi.response.CharactererResponse;
+import com.mathsena.webclientrickandmortyapi.response.EpisodeResponse;
 import com.mathsena.webclientrickandmortyapi.response.LocationResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,12 @@ public class RickAndMortyController {
     @GetMapping("/location/{id}")
     public Mono<LocationResponse> getLocationById(@PathVariable String id){
         return rickAndMortyClient.findAnLocationById(id);
+
+    }
+
+    @GetMapping("/episode/{id}")
+    public Mono<EpisodeResponse> getEpisodeById(@PathVariable String id){
+        return rickAndMortyClient.findAnLEpisodeById(id);
 
     }
 }

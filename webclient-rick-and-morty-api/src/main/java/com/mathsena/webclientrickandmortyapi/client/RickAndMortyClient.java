@@ -1,6 +1,8 @@
 package com.mathsena.webclientrickandmortyapi.client;
 
 import com.mathsena.webclientrickandmortyapi.response.CharactererResponse;
+import com.mathsena.webclientrickandmortyapi.response.EpisodeResponse;
+import com.mathsena.webclientrickandmortyapi.response.LocationResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,7 @@ public class RickAndMortyClient {
         webClient = builder.baseUrl("https://rickandmortyapi.com/api").build();
     }
 
-    public Mono<CharactererResponse> findAndCharacterById(String id){
+    public Mono<CharactererResponse> findAnCharacterById(String id){
         log.info("buscando o personagem com o id [{}]");
         return webClient
                 .get()
@@ -29,6 +31,32 @@ public class RickAndMortyClient {
                 .onStatus(HttpStatusCode::is4xxClientError,
                         error -> Mono.error(new RuntimeException("Verifique os campos informados")
                                 )).bodyToMono(CharactererResponse.class);
+
+    }
+
+    public Mono<LocationResponse> findAnLocationById(String id){
+        log.info("buscando a localização com o id [{}]");
+        return webClient
+                .get()
+                .uri("/location/" + id)
+                .accept(APPLICATION_JSON)
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        error -> Mono.error(new RuntimeException("Verifique os campos informados")
+                        )).bodyToMono(LocationResponse.class);
+
+    }
+
+    public Mono<EpisodeResponse> findAnLEpisodeById(String id){
+        log.info("buscando um episodio com o id [{}]");
+        return webClient
+                .get()
+                .uri("/episode/" + id)
+                .accept(APPLICATION_JSON)
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        error -> Mono.error(new RuntimeException("Verifique os campos informados")
+                        )).bodyToMono(EpisodeResponse.class);
 
     }
 }
