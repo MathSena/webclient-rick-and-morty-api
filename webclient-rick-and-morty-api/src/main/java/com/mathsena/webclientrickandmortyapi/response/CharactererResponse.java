@@ -12,7 +12,7 @@ public class CharactererResponse {
     private String status;
     private String species;
     private String image;
-    private List<String> episodes;
+    private List<String> episode;
 
 
 }
